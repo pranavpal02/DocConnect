@@ -129,7 +129,7 @@ const forgotPassword = async (req, res) => {
     await user.save()
 
     // Create reset URL
-    const resetUrl = ${process.env.FRONTEND_URL}/login?token=${resetToken}
+    const resetUrl = `${process.env.FRONTEND_URL}/login?token=${resetToken}`
 
     // Email content
     const mailOptions = {

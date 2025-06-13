@@ -44,20 +44,20 @@ const Login = () => {
 
       if (state === "Sign Up") {
         // Registration API call
-        response = await axios.post(${backendUrl}/api/user/register, {
+        response = await axios.post(`${backendUrl}/api/user/register`, {
           name,
           email,
           password,
         })
       } else if (state === "Login") {
         // Login API call
-        response = await axios.post(${backendUrl}/api/user/login, {
+        response = await axios.post(`${backendUrl}/api/user/login`, {
           email,
           password,
         })
       } else if (state === "Forgot Password") {
         // Forgot password API call
-        response = await axios.post(${backendUrl}/api/user/forgot-password, {
+        response = await axios.post(`${backendUrl}/api/user/forgot-password`, {
           email,
         })
       } else if (state === "Reset Password") {
@@ -72,7 +72,7 @@ const Login = () => {
           setLoading(false)
           return
         }
-        response = await axios.post(${backendUrl}/api/user/reset-password, {
+        response = await axios.post(`${backendUrl}/api/user/reset-password`, {
           token: resetToken,
           newPassword,
         })

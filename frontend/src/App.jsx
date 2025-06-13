@@ -28,7 +28,7 @@ const App = () => {
     }
 
     try {
-      const response = await fetch(${backendUrl}/api/user/profile, {
+      const response = await fetch(`${backendUrl}/api/user/profile`, {
         method: "GET",
         headers: {
           token: token,
