@@ -23,7 +23,7 @@ const Home = () => {
   const fetchUserData = async () => {
     try {
       const token = localStorage.getItem("token")
-      const response = await axios.get(${backendUrl}/api/user/profile, {
+      const response = await axios.get(`${backendUrl}/api/user/profile`, {
         headers: { token },
       })
 
