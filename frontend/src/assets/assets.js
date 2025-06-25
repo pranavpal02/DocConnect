@@ -87,7 +87,7 @@ export const specialityData = [
 export const doctors = [
   {
     _id: "doc1",
-    name: "Dr. Richard James",
+    name: "Dr. Aisha Tyagi",
     image: doc1,
     speciality: "General physician",
     degree: "MBBS",
@@ -132,7 +132,7 @@ export const doctors = [
   },
   {
     _id: "doc4",
-    name: "Dr. Christopher Lee",
+    name: "Dr. Siara Khan",
     image: doc4,
     speciality: "Pediatricians",
     degree: "MBBS",
