@@ -23,14 +23,16 @@ const Doctors = () => {
       </h1>
 
       {/* Speciality List */}
-      <div className="flex flex-wrap gap-4 justify-center mb-10 text-sm text-primary font-medium">
+      <div className="flex flex-wrap gap-4 justify-center mb-10 text-sm text-black font-medium">
         <p
           onClick={() =>
             speciality === "General physician"
               ? navigate("/doctors")
               : navigate("/doctors/General physician")
           }
-          className="w-[94vw] sm:w-auto px-6 py-2 border border-gray-300 rounded transition-all cursor-pointer flex items-center justify-center text-center"
+          className={`w-[94vw] sm:w-auto px-6 py-2 border border-gray-300 rounded transition-all cursor-pointer flex items-center justify-center text-center ${
+            speciality === "General physician" ? "bg-indigo-100 text-black" : ""
+          }`}
         >
           General Physician
         </p>
@@ -40,7 +42,9 @@ const Doctors = () => {
               ? navigate("/doctors")
               : navigate("/doctors/Gynecologist")
           }
-          className="w-[94vw] sm:w-auto px-6 py-2 border border-gray-300 rounded transition-all cursor-pointer flex items-center justify-center text-center"
+          className={`w-[94vw] sm:w-auto px-6 py-2 border border-gray-300 rounded transition-all cursor-pointer flex items-center justify-center text-center ${
+            speciality === "Gynecologist" ? "bg-indigo-100 text-black" : ""
+          }`}
         >
           Gynecologist
         </p>
@@ -50,7 +54,9 @@ const Doctors = () => {
               ? navigate("/doctors")
               : navigate("/doctors/Dermatologist")
           }
-          className="w-[94vw] sm:w-auto px-6 py-2 border border-gray-300 rounded transition-all cursor-pointer flex items-center justify-center text-center"
+          className={`w-[94vw] sm:w-auto px-6 py-2 border border-gray-300 rounded transition-all cursor-pointer flex items-center justify-center text-center ${
+            speciality === "Dermatologist" ? "bg-indigo-100 text-black" : ""
+          }`}
         >
           Dermatologist
         </p>
@@ -60,7 +66,9 @@ const Doctors = () => {
               ? navigate("/doctors")
               : navigate("/doctors/Pediatricians")
           }
-          className="w-[94vw] sm:w-auto px-6 py-2 border border-gray-300 rounded transition-all cursor-pointer flex items-center justify-center text-center"
+          className={`w-[94vw] sm:w-auto px-6 py-2 border border-gray-300 rounded transition-all cursor-pointer flex items-center justify-center text-center ${
+            speciality === "Pediatricians" ? "bg-indigo-100 text-black" : ""
+          }`}
         >
           Pediatricians
         </p>
@@ -70,7 +78,9 @@ const Doctors = () => {
               ? navigate("/doctors")
               : navigate("/doctors/Neurologist")
           }
-          className="w-[94vw] sm:w-auto px-6 py-2 border border-gray-300 rounded transition-all cursor-pointer flex items-center justify-center text-center"
+          className={`w-[94vw] sm:w-auto px-6 py-2 border border-gray-300 rounded transition-all cursor-pointer flex items-center justify-center text-center ${
+            speciality === "Neurologist" ? "bg-indigo-100 text-black" : ""
+          }`}
         >
           Neurologist
         </p>
@@ -80,7 +90,11 @@ const Doctors = () => {
               ? navigate("/doctors")
               : navigate("/doctors/Gastroenterologist")
           }
-          className="w-[94vw] sm:w-auto px-6 py-2 border border-gray-300 rounded transition-all cursor-pointer flex items-center justify-center text-center"
+          className={`w-[94vw] sm:w-auto px-6 py-2 border border-gray-300 rounded transition-all cursor-pointer flex items-center justify-center text-center ${
+            speciality === "Gastroenterologist"
+              ? "bg-indigo-100 text-black"
+              : ""
+          }`}
         >
           Gastroenterologist
         </p>
