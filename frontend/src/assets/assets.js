@@ -93,7 +93,7 @@ export const doctors = [
     degree: "MBBS",
     experience: "4 Years",
     about:
-      "Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies. Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies.",
+      "Dr. Aisha Tyagi is dedicated to providing comprehensive primary care tailored to each patient’s unique needs. She focuses on prevention, lifestyle counseling, and long-term wellness planning. Her patients appreciate her approachable and thorough style of treatment. She believes strongly in empowering patients through education.",
     fees: 50,
     address: {
       line1: "17th Cross, Richmond",
@@ -108,7 +108,7 @@ export const doctors = [
     degree: "MBBS",
     experience: "3 Years",
     about:
-      "Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies. Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies.",
+      "Dr. Emily Larson specializes in women's health, including prenatal care and reproductive counseling. She guides patients through fertility and hormonal balance issues with empathy and skill. Her warm bedside manner is highly valued. She is passionate about preventive screenings for women's health.",
     fees: 60,
     address: {
       line1: "27th Cross, Richmond",
@@ -123,7 +123,7 @@ export const doctors = [
     degree: "MBBS",
     experience: "1 Years",
     about:
-      "Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies. Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies.",
+      "Dr. Sarah Patel provides expertise in diagnosing and treating skin conditions like acne, rashes, and pigmentation. She combines cosmetic dermatology with evidence-based medical care. Her goal is to help patients feel confident in their skin. She is also trained in non-invasive cosmetic procedures.",
     fees: 30,
     address: {
       line1: "37th Cross, Richmond",
@@ -138,7 +138,7 @@ export const doctors = [
     degree: "MBBS",
     experience: "2 Years",
     about:
-      "Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies. Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies.",
+      "Dr. Siara Khan is devoted to comprehensive child health, including growth monitoring and vaccinations. She promotes family-centered care with a focus on child nutrition. Parents appreciate her friendly, reassuring approach. She emphasizes early screening for developmental milestones.",
     fees: 40,
     address: {
       line1: "47th Cross, Richmond",
@@ -153,7 +153,7 @@ export const doctors = [
     degree: "MBBS",
     experience: "4 Years",
     about:
-      "Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies. Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies.",
+      "Dr. Jennifer Garcia specializes in treating conditions such as migraines, epilepsy, and neuropathy. She combines advanced diagnostics with compassionate patient care. Her patients value her clear explanations of complex conditions. She stays up-to-date on the latest neurological research.",
     fees: 50,
     address: {
       line1: "57th Cross, Richmond",
@@ -168,7 +168,7 @@ export const doctors = [
     degree: "MBBS",
     experience: "4 Years",
     about:
-      "Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies. Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies.",
+      "Dr. Andrew Williams focuses on rehabilitation after neurological injuries and managing cognitive disorders. He develops customized care plans for every patient. Families appreciate his patient education efforts. His clinical practice emphasizes teamwork with rehabilitation therapists.",
     fees: 50,
     address: {
       line1: "57th Cross, Richmond",
@@ -183,7 +183,7 @@ export const doctors = [
     degree: "MBBS",
     experience: "4 Years",
     about:
-      "Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies. Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies.",
+      "Dr. Preksha Davis provides comprehensive general medicine with a focus on chronic disease prevention and management. She works with patients on lifestyle changes to improve overall health. Her listening skills build trust with patients. She also supports community health education initiatives.",
     fees: 50,
     address: {
       line1: "17th Cross, Richmond",
@@ -198,7 +198,7 @@ export const doctors = [
     degree: "MBBS",
     experience: "3 Years",
     about:
-      "Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies. Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies.",
+      "Dr. Timothy White specializes in minimally invasive gynecologic surgeries and fertility management. He supports patients through all reproductive stages with evidence-based care. His calm and supportive manner is appreciated by patients. He regularly participates in women's health awareness programs.",
     fees: 60,
     address: {
       line1: "27th Cross, Richmond",
@@ -213,7 +213,7 @@ export const doctors = [
     degree: "MBBS",
     experience: "1 Years",
     about:
-      "Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies. Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies.",
+      "Dr. Ava Mitchell offers comprehensive skincare services including laser treatments and cosmetic dermatology. She focuses on restoring and maintaining healthy skin through personalized treatment plans. Patients find her compassionate approach reassuring. She continues to research innovative skin therapies.",
     fees: 30,
     address: {
       line1: "37th Cross, Richmond",
@@ -228,7 +228,7 @@ export const doctors = [
     degree: "MBBS",
     experience: "2 Years",
     about:
-      "Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies. Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies.",
+      "Dr. Jeffrey King delivers holistic pediatric care focused on growth, development, and preventive health. He works with parents on behavior and nutrition strategies. Children enjoy his friendly, playful style. He is an advocate for early mental health awareness in kids.",
     fees: 40,
     address: {
       line1: "47th Cross, Richmond",
@@ -243,7 +243,7 @@ export const doctors = [
     degree: "MBBS",
     experience: "4 Years",
     about:
-      "Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies. Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies.",
+      "Dr. Zoe Kelly specializes in stroke management, neuroimaging, and movement disorders. She believes in empowering patients with clear explanations about their conditions. Her approachable style encourages shared decision-making. She actively participates in local neurology seminars.",
     fees: 50,
     address: {
       line1: "57th Cross, Richmond",
@@ -254,11 +254,11 @@ export const doctors = [
     _id: "doc12",
     name: "Dr. Patrick Harris",
     image: doc12,
-    speciality: "Neurologist",
+    speciality: "Gastroenterologist",
     degree: "MBBS",
     experience: "4 Years",
     about:
-      "Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies. Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies.",
+      "Dr. Patrick Harris offers expert care for digestive and liver-related diseases. He performs advanced endoscopic procedures with a patient-first approach. People trust him for compassionate, evidence-based treatment. He emphasizes early screening for gastrointestinal cancers.",
     fees: 50,
     address: {
       line1: "57th Cross, Richmond",
@@ -273,7 +273,7 @@ export const doctors = [
     degree: "MBBS",
     experience: "4 Years",
     about:
-      "Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies. Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies.",
+      "Dr. Chloe Evans believes in preventive healthcare and evidence-based chronic disease care. She partners with patients to build sustainable wellness plans. Her clinic prioritizes easy access and continuity of care. She enjoys promoting community health workshops.",
     fees: 50,
     address: {
       line1: "17th Cross, Richmond",
@@ -288,7 +288,7 @@ export const doctors = [
     degree: "MBBS",
     experience: "3 Years",
     about:
-      "Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies. Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies.",
+      "Dr. Ryan Martinez provides gynecologic care with a special focus on high-risk pregnancies and teen health. He is committed to empowering women with knowledge about their reproductive choices. Patients trust his open and respectful communication style. He also supports maternal mental health programs.",
     fees: 60,
     address: {
       line1: "27th Cross, Richmond",
@@ -303,7 +303,7 @@ export const doctors = [
     degree: "MBBS",
     experience: "1 Years",
     about:
-      "Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies. Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies.",
+      "Dr. Amelia Hill treats eczema, psoriasis, and performs advanced allergy testing. She helps patients manage chronic skin conditions with holistic plans. Her patients feel heard and supported throughout their treatment. She regularly hosts skin-care education events.",
     fees: 30,
     address: {
       line1: "37th Cross, Richmond",
