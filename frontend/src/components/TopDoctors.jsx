@@ -1,13 +1,13 @@
 import React, { useContext } from "react"
 import { useNavigate } from "react-router-dom"
 import { AppContext } from "../context/AppContext"
+
 const TopDoctors = () => {
   const navigate = useNavigate()
-
   const { doctors } = useContext(AppContext)
 
   return (
-    <div className="flex flex-col items-center gap-4 my-16 text-[#262626] md:mx-10">
+    <div className="flex flex-col items-center gap-5 my-16 text-[#262626] md:mx-10">
       <h1 className="text-3xl font-medium">Top Doctors to Book</h1>
       <p className="sm:w-1/3 text-center text-sm">
         Simply browse through our extensive list of trusted doctors.
@@ -19,7 +19,8 @@ const TopDoctors = () => {
               navigate(`/appointment/${item._id}`)
               scrollTo(0, 0)
             }}
-            className="border border-[#C9D8FF] rounded-xl overflow-hidden cursor-pointer hover:translate-y-[-10px] transition-all duration-500"
+            className="rounded-xl overflow-hidden cursor-pointer hover:translate-y-[-10px] transition-all duration-500
+              bg-gradient-to-br from-healthcare-primary/20 to-healthcare-secondary/20 border border-[#C9D8FF]"
             key={index}
           >
             <img className="bg-primary" src={item.image} alt="" />
