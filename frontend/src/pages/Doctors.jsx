@@ -17,7 +17,7 @@ const Doctors = () => {
   }, [doctors, speciality])
 
   return (
-    <div className="px-6 py-12">
+    <div className="px-6 py-12 bg-healthcare-light min-h-screen">
       <h1 className="text-2xl font-semibold text-center mb-6 text-gray-800">
         Browse through doctor specialists
       </h1>
