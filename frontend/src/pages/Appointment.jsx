@@ -106,81 +106,86 @@ const Appointment = () => {
   }, [docInfo])
 
   return docInfo ? (
-    <div>
-      {/* ---------- Doctor Details ----------- */}
-      <div className="flex flex-col sm:flex-row gap-4">
+    <div className="relative bg-gradient-to-br from-healthcare-light to-gray-100 rounded-xl shadow-lg my-12 w-full max-w-full px-6 py-12 animate-fade-in">
+      {/* Background Pattern */}
+      <div className="absolute inset-0 bg-[linear-gradient(45deg,rgba(255,255,255,0.2)_25%,transparent_25%,transparent_50%,rgba(255,255,255,0.2)_50%,rgba(255,255,255,0.2)_75%,transparent_75%,transparent)] bg-[size:20px_20px] opacity-10 rounded-xl pointer-events-none"></div>
+
+      {/* Doctor Details */}
+      <div className="flex flex-col sm:flex-row gap-6 z-20 animate-fade-in">
         <div>
           <img
-            className="bg-primary w-full sm:max-w-72 rounded-lg"
+            className="bg-healthcare-primary/10 w-full sm:max-w-72 rounded-lg"
             src={docInfo.image}
-            alt=""
+            alt={docInfo.name}
           />
         </div>
 
-        <div className="flex-1 border border-[#ADADAD] rounded-lg p-8 py-7 bg-white mx-2 sm:mx-0 mt-[-80px] sm:mt-0">
-          <p className="flex items-center gap-2 text-3xl font-medium text-gray-700">
+        <div className="flex-1 bg-gradient-to-br from-white to-gray-50 shadow-md rounded-xl p-6 sm:p-8">
+          <p className="flex items-center gap-2 text-3xl font-semibold text-gray-900 font-sans">
             {docInfo.name}{" "}
-            <img className="w-5" src={assets.verified_icon} alt="" />
+            <img className="w-5" src={assets.verified_icon} alt="Verified" />
           </p>
-          <div className="flex items-center gap-2 mt-1 text-gray-600">
+          <div className="flex items-center gap-2 mt-1 text-gray-700 font-sans">
             <p>
               {docInfo.degree} - {docInfo.speciality}
             </p>
-            <button className="py-0.5 px-2 border text-xs rounded-full">
+            <button className="py-0.5 px-3 border border-gray-300 text-xs rounded-full font-medium font-sans">
               {docInfo.experience}
             </button>
           </div>
 
           <div>
-            <p className="flex items-center gap-1 text-sm font-medium text-[#262626] mt-3">
-              About <img className="w-3" src={assets.info_icon} alt="" />
+            <p className="flex items-center gap-1 text-sm font-medium text-gray-900 mt-3 font-sans">
+              About <img className="w-3" src={assets.info_icon} alt="Info" />
             </p>
-            <p className="text-sm text-gray-600 max-w-[700px] mt-1">
+            <p className="text-sm text-gray-700 max-w-[700px] mt-1 font-sans">
               {docInfo.about}
             </p>
           </div>
 
-          <p className="text-gray-600 font-medium mt-4">
+          <p className="text-gray-700 font-medium mt-4 font-sans">
             Appointment fee:{" "}
-            <span className="text-gray-800">
+            <span className="text-gray-900">
               {currencySymbol}
               {docInfo.fees}
-            </span>{" "}
+            </span>
           </p>
         </div>
       </div>
 
-      {/* Booking slots */}
-      <div className="sm:ml-72 sm:pl-4 mt-8 font-medium text-[#565656]">
-        <p>Booking slots</p>
-        <div className="flex gap-3 items-center w-full overflow-x-scroll mt-4">
+      {/* Booking Slots */}
+      <div className="mt-8 font-medium text-gray-900 font-sans bg-gradient-to-br from-white to-gray-50 shadow-md rounded-xl p-6 animate-fade-in">
+        <p className="text-lg">Booking Slots</p>
+        <div className="flex gap-4 items-center w-full overflow-x-scroll mt-4">
           {docSlots.length &&
             docSlots.map((item, index) => (
               <div
                 onClick={() => setSlotIndex(index)}
                 key={index}
-                className={`text-center py-6 min-w-16 rounded-full cursor-pointer ${
+                className={`text-center py-6 min-w-20 rounded-full cursor-pointer hover:bg-healthcare-primary/20 transition-colors ${
                   slotIndex === index
-                    ? "bg-primary text-white"
-                    : "border border-[#DDDDDD]"
+                    ? "bg-healthcare-primary text-white"
+                    : "border border-gray-300"
                 }`}
               >
-                <p>{item[0] && daysOfWeek[item[0].datetime.getDay()]}</p>
+                <p className="font-medium">
+                  {item[0] && daysOfWeek[item[0].datetime.getDay()]}
+                </p>
                 <p>{item[0] && item[0].datetime.getDate()}</p>
               </div>
             ))}
         </div>
 
-        <div className="flex items-center gap-3 w-full overflow-x-scroll mt-4">
+        <div className="flex items-center gap-4 w-full overflow-x-scroll mt-4">
           {docSlots.length &&
             docSlots[slotIndex].map((item, index) => (
               <p
                 onClick={() => setSlotTime(item.time)}
                 key={index}
-                className={`text-sm font-light  flex-shrink-0 px-5 py-2 rounded-full cursor-pointer ${
+                className={`text-sm font-medium flex-shrink-0 px-6 py-2.5 rounded-full cursor-pointer hover:bg-healthcare-primary/20 transition-colors ${
                   item.time === slotTime
-                    ? "bg-primary text-white"
-                    : "text-[#949494] border border-[#B4B4B4]"
+                    ? "bg-healthcare-primary text-white"
+                    : "text-gray-700 border border-gray-300"
                 }`}
               >
                 {item.time.toLowerCase()}
@@ -190,13 +195,13 @@ const Appointment = () => {
 
         <button
           onClick={bookAppointment}
-          className="bg-primary text-white text-sm font-light px-20 py-3 rounded-full my-6"
+          className="bg-healthcare-primary text-white text-sm font-medium px-8 py-2.5 rounded-full mt-6 hover:bg-healthcare-secondary hover:shadow-md transition-colors cursor-pointer"
         >
-          Book an appointment
+          Book an Appointment
         </button>
       </div>
 
-      {/* Listing Releated Doctors */}
+      {/* Listing Related Doctors */}
       <RelatedDoctors speciality={docInfo.speciality} docId={docId} />
     </div>
   ) : null
