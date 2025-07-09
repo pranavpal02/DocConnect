@@ -1,12 +1,22 @@
 import React, { useContext, useEffect, useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import { AppContext } from "../context/AppContext"
 
 const Doctors = () => {
   const navigate = useNavigate()
   const { doctors } = useContext(AppContext)
+  const { speciality } = useParams()
   const [searchTerm, setSearchTerm] = useState("")
   const [filteredDoctors, setFilteredDoctors] = useState([])
+
+  // Set the initial searchTerm from URL param
+  useEffect(() => {
+    if (speciality) {
+      setSearchTerm(speciality)
+    } else {
+      setSearchTerm("")
+    }
+  }, [speciality])
 
   useEffect(() => {
     if (searchTerm.length >= 2) {
