@@ -110,6 +110,21 @@ export default {
       fontFamily: {
         sans: ["Inter", "system-ui", "sans-serif"],
       },
+
+      keyframes: {
+        "rotate-helicopter": {
+          "0%": { transform: "rotate(0deg)" },
+          "100%": { transform: "rotate(360deg)" },
+        },
+        "fly-away": {
+          "0%": { transform: "translateY(0) scale(1)", opacity: "1" },
+          "100%": { transform: "translateY(-100px) scale(0.5)", opacity: "0" },
+        },
+      },
+      animation: {
+        "rotate-helicopter": "rotate-helicopter 1.5s linear infinite",
+        "fly-away": "fly-away 1s ease-out forwards",
+      },
     },
   },
   plugins: [require("tailwindcss-animate")],

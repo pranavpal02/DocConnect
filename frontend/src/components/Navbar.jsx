@@ -15,24 +15,24 @@ const Navbar = () => {
   }
 
   return (
-    <header className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-50">
-      <div className="container mx-auto flex items-center justify-between px-4 py-4">
+    <header className="bg-gradient-to-br from-healthcare-light to-gray-100 shadow-lg rounded-b-xl sticky top-0 z-50">
+      <div className="w-full max-w-full mx-auto px-6 py-6 flex items-center justify-between">
         {/* Logo */}
         <img
           onClick={() => navigate("/")}
-          className="w-36 cursor-pointer"
+          className="w-44 cursor-pointer"
           src={assets.logo}
           alt="DocConnect logo"
         />
 
         {/* Desktop Nav */}
-        <nav className="hidden md:flex items-center gap-8 font-medium text-gray-700">
+        <nav className="hidden md:flex items-center gap-10 font-semibold text-gray-700 font-sans">
           <NavLink
             to="/"
             className={({ isActive }) =>
               isActive
                 ? "text-healthcare-primary border-b-2 border-healthcare-primary pb-1"
-                : "hover:text-healthcare-primary transition-colors"
+                : "hover:text-healthcare-primary hover:underline transition-colors"
             }
           >
             HOME
@@ -42,7 +42,7 @@ const Navbar = () => {
             className={({ isActive }) =>
               isActive
                 ? "text-healthcare-primary border-b-2 border-healthcare-primary pb-1"
-                : "hover:text-healthcare-primary transition-colors"
+                : "hover:text-healthcare-primary hover:underline transition-colors"
             }
           >
             ALL DOCTORS
@@ -52,7 +52,7 @@ const Navbar = () => {
             className={({ isActive }) =>
               isActive
                 ? "text-healthcare-primary border-b-2 border-healthcare-primary pb-1"
-                : "hover:text-healthcare-primary transition-colors"
+                : "hover:text-healthcare-primary hover:underline transition-colors"
             }
           >
             ABOUT
@@ -62,7 +62,7 @@ const Navbar = () => {
             className={({ isActive }) =>
               isActive
                 ? "text-healthcare-primary border-b-2 border-healthcare-primary pb-1"
-                : "hover:text-healthcare-primary transition-colors"
+                : "hover:text-healthcare-primary hover:underline transition-colors"
             }
           >
             CONTACT
@@ -70,32 +70,32 @@ const Navbar = () => {
         </nav>
 
         {/* Actions */}
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-6">
           {token && userData ? (
-            <div className="relative flex items-center gap-2 cursor-pointer group">
+            <div className="relative flex items-center gap-3 cursor-pointer group">
               <img
-                className="w-8 rounded-full border border-gray-300"
+                className="w-10 rounded-full border border-gray-300"
                 src={userData.image}
                 alt="Profile"
               />
-              <img className="w-3" src={assets.dropdown_icon} alt="dropdown" />
-              <div className="absolute top-12 right-0 text-base font-medium text-gray-600 z-30 hidden group-hover:block">
-                <div className="min-w-48 bg-white rounded shadow p-4 flex flex-col gap-4">
+              <img className="w-4" src={assets.dropdown_icon} alt="Dropdown" />
+              <div className="absolute top-12 right-0 text-base font-medium text-gray-600 z-30 hidden group-hover:block animate-fade-in">
+                <div className="min-w-56 bg-white rounded-lg shadow-lg p-4 flex flex-col gap-4">
                   <p
                     onClick={() => navigate("/my-profile")}
-                    className="hover:text-healthcare-primary cursor-pointer"
+                    className="hover:text-healthcare-primary hover:underline cursor-pointer font-sans"
                   >
                     My Profile
                   </p>
                   <p
                     onClick={() => navigate("/my-appointments")}
-                    className="hover:text-healthcare-primary cursor-pointer"
+                    className="hover:text-healthcare-primary hover:underline cursor-pointer font-sans"
                   >
                     My Appointments
                   </p>
                   <p
                     onClick={logout}
-                    className="hover:text-red-600 cursor-pointer"
+                    className="hover:text-red-600 hover:underline cursor-pointer font-sans"
                   >
                     Logout
                   </p>
@@ -105,16 +105,16 @@ const Navbar = () => {
           ) : (
             <button
               onClick={() => navigate("/login")}
-              className="bg-healthcare-primary hover:bg-healthcare-primary/90 text-white px-5 py-2 rounded-full hidden md:block transition"
+              className="bg-healthcare-primary hover:bg-healthcare-secondary text-white px-6 py-2.5 rounded-full hidden md:block transition-colors font-medium font-sans"
             >
               Create Account
             </button>
           )}
           <img
             onClick={() => setShowMenu(true)}
-            className="w-6 md:hidden cursor-pointer"
+            className="w-8 md:hidden cursor-pointer"
             src={assets.menu_icon}
-            alt="menu"
+            alt="Menu"
           />
         </div>
       </div>
@@ -123,43 +123,43 @@ const Navbar = () => {
       <div
         className={`md:hidden ${
           showMenu ? "fixed inset-0 w-full h-full z-40 bg-white" : "h-0 w-0"
-        } overflow-hidden transition-all`}
+        } overflow-hidden transition-all animate-slide-in`}
       >
-        <div className="flex items-center justify-between px-5 py-6 border-b border-gray-200 shadow-sm">
-          <img src={assets.logo} className="w-32" alt="DocConnect logo" />
+        <div className="flex items-center justify-between px-6 py-6 border-b border-gray-200 shadow-sm">
+          <img src={assets.logo} className="w-40" alt="DocConnect logo" />
           <img
             onClick={() => setShowMenu(false)}
             src={assets.cross_icon}
-            className="w-7 cursor-pointer"
-            alt="close"
+            className="w-8 cursor-pointer"
+            alt="Close"
           />
         </div>
-        <ul className="flex flex-col items-center gap-4 mt-8 text-lg font-medium">
+        <ul className="flex flex-col items-center gap-6 mt-8 text-xl font-semibold font-sans">
           <NavLink
             onClick={() => setShowMenu(false)}
             to="/"
-            className="hover:text-healthcare-primary transition"
+            className="hover:text-healthcare-primary hover:underline transition-colors"
           >
             HOME
           </NavLink>
           <NavLink
             onClick={() => setShowMenu(false)}
             to="/doctors"
-            className="hover:text-healthcare-primary transition"
+            className="hover:text-healthcare-primary hover:underline transition-colors"
           >
             ALL DOCTORS
           </NavLink>
           <NavLink
             onClick={() => setShowMenu(false)}
             to="/about"
-            className="hover:text-healthcare-primary transition"
+            className="hover:text-healthcare-primary hover:underline transition-colors"
           >
             ABOUT
           </NavLink>
           <NavLink
             onClick={() => setShowMenu(false)}
             to="/contact"
-            className="hover:text-healthcare-primary transition"
+            className="hover:text-healthcare-primary hover:underline transition-colors"
           >
             CONTACT
           </NavLink>

@@ -6,11 +6,15 @@ import Banner from "../components/Banner"
 
 const Home = () => {
   return (
-    <div>
-      <Header />
-      <SpecialityMenu />
-      <TopDoctors />
-      <Banner />
+    <div className="bg-gray-100 min-h-screen">
+      <div className="px-6 py-12 space-y-12">
+        <div>
+          <Header />
+        </div>
+        <SpecialityMenu />
+        <TopDoctors />
+        <Banner />
+      </div>
     </div>
   )
 }
