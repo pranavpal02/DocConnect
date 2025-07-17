@@ -43,11 +43,6 @@ const AddDoctor = () => {
         JSON.stringify({ line1: address1, line2: address2 })
       )
 
-      // console log formdata
-      formData.forEach((value, key) => {
-        console.log(`${key}: ${value}`)
-      })
-
       const { data } = await axios.post(
         backendUrl + "/api/admin/add-doctor",
         formData,
@@ -73,10 +68,10 @@ const AddDoctor = () => {
     }
   }
   return (
-    <form onSubmit={onSubmitHandler} className="m-5 w-full">
-      <p className="mb-3 text-lg font-medium">Add Doctor</p>
+    <form onSubmit={onSubmitHandler} className="p-4 sm:p-6 w-full">
+      <p className="mb-3 text-lg sm:text-xl font-medium">Add Doctor</p>
 
-      <div className="bg-white px-8 py-8 border rounded w-full max-w-4xl max-h-[80vh] overflow-y-scroll">
+      <div className="bg-white px-4 sm:px-8 py-6 sm:py-8 border rounded w-full max-w-4xl max-h-[80vh] overflow-y-scroll">
         <div className="flex items-center gap-4 mb-8 text-gray-500">
           <label htmlFor="doc-img">
             <img

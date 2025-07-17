@@ -1,6 +1,7 @@
 import React from "react"
 import { assets } from "../assets/assets"
 import { FaInstagram, FaFacebookF } from "react-icons/fa"
+import { NavLink } from "react-router-dom"
 
 const Footer = () => {
   return (
@@ -20,10 +21,10 @@ const Footer = () => {
         <div>
           <p className="text-xl font-medium mb-5">COMPANY</p>
           <ul className="flex flex-col gap-2 text-gray-600">
-            <li>Home</li>
-            <li>About us</li>
-            <li>Delivery</li>
-            <li>Privacy policy</li>
+            <li><NavLink to="/" className={({ isActive }) => isActive ? "text-healthcare-primary font-semibold" : "hover:text-healthcare-primary"}>Home</NavLink></li>
+            <li><NavLink to="/doctors" className={({ isActive }) => isActive ? "text-healthcare-primary font-semibold" : "hover:text-healthcare-primary"}>All Doctors</NavLink></li>
+            <li><NavLink to="/about" className={({ isActive }) => isActive ? "text-healthcare-primary font-semibold" : "hover:text-healthcare-primary"}>About</NavLink></li>
+            <li><NavLink to="/contact" className={({ isActive }) => isActive ? "text-healthcare-primary font-semibold" : "hover:text-healthcare-primary"}>Contact</NavLink></li>
           </ul>
         </div>
 

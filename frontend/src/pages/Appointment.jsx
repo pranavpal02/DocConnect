@@ -8,7 +8,7 @@ import { toast } from "react-toastify"
 
 const Appointment = () => {
   const { docId } = useParams()
-  const { doctors, currencySymbol, backendUrl, token, getDoctosData } =
+  const { doctors, currencySymbol, backendUrl, token, getDoctorsData } =
     useContext(AppContext)
   const daysOfWeek = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"]
 
@@ -16,12 +16,46 @@ const Appointment = () => {
   const [docSlots, setDocSlots] = useState([])
   const [slotIndex, setSlotIndex] = useState(0)
   const [slotTime, setSlotTime] = useState("")
+  const [bookedSlots, setBookedSlots] = useState({})
+  const [isRefreshing, setIsRefreshing] = useState(false)
 
   const navigate = useNavigate()
 
   const fetchDocInfo = async () => {
     const docInfo = doctors.find((doc) => doc._id === docId)
     setDocInfo(docInfo)
+  }
+
+  const refreshBookedSlots = async () => {
+    setIsRefreshing(true)
+    try {
+      const { data } = await axios.get(`${backendUrl}/api/doctor/booked-slots/${docId}`)
+      if (data.success) {
+        setBookedSlots(data.bookedSlots || {})
+        toast.success("Slots refreshed successfully")
+      }
+    } catch (error) {
+      toast.error("Failed to refresh slots")
+    } finally {
+      setIsRefreshing(false)
+    }
+  }
+
+  const isSlotBooked = (slotDate, slotTime) => {
+    
+    if (!bookedSlots[slotDate]) {
+      return false
+    }
+    
+    
+    const isBooked = bookedSlots[slotDate].some(
+      (t) => {
+        const match = t.toLowerCase() === slotTime.toLowerCase()
+        return match
+      }
+    )
+    
+    return isBooked
   }
 
   const getAvailableSolts = async () => {
@@ -48,9 +82,16 @@ const Appointment = () => {
           hour12: true,
         })
 
+        // Create date key for checking booked slots
+        let day = currentDate.getDate()
+        let month = currentDate.getMonth() + 1
+        let year = currentDate.getFullYear()
+        const slotDate = day + "_" + month + "_" + year
+
         timeSlots.push({
           datetime: new Date(currentDate),
           time: formattedTime,
+          slotDate: slotDate
         })
 
         currentDate.setMinutes(currentDate.getMinutes() + 30)
@@ -82,15 +123,25 @@ const Appointment = () => {
       )
       if (data.success) {
         toast.success(data.message)
-        getDoctosData()
+        getDoctorsData()
         navigate("/my-appointments")
       } else {
         toast.error(data.message)
       }
     } catch (error) {
-      console.log(error)
       toast.error(error.message)
     }
+  }
+
+  const handleSlotClick = (item) => {
+    
+    if (isSlotBooked(item.slotDate, item.time)) {
+      toast.warning("This slot is already booked")
+      return
+    }
+    
+    
+    setSlotTime(item.time)
   }
 
   useEffect(() => {
@@ -155,7 +206,20 @@ const Appointment = () => {
 
       {/* Booking Slots */}
       <div className="mt-8 font-medium text-gray-900 font-sans bg-gradient-to-br from-white to-gray-50 shadow-md rounded-xl p-6 animate-fade-in">
-        <p className="text-lg">Booking Slots</p>
+        <div className="flex justify-between items-center">
+          <p className="text-lg">Booking Slots</p>
+          <button
+            onClick={refreshBookedSlots}
+            disabled={isRefreshing}
+            className={`text-sm px-3 py-1 rounded-md transition-colors ${
+              isRefreshing 
+                ? "bg-gray-300 text-gray-500 cursor-not-allowed" 
+                : "bg-gray-100 hover:bg-gray-200 text-gray-700"
+            }`}
+          >
+            {isRefreshing ? "Refreshing..." : "Refresh Slots"}
+          </button>
+        </div>
         <div className="flex gap-4 items-center w-full overflow-x-scroll mt-4">
           {docSlots.length &&
             docSlots.map((item, index) => (
@@ -178,19 +242,29 @@ const Appointment = () => {
 
         <div className="flex items-center gap-4 w-full overflow-x-scroll mt-4">
           {docSlots.length &&
-            docSlots[slotIndex].map((item, index) => (
-              <p
-                onClick={() => setSlotTime(item.time)}
-                key={index}
-                className={`text-sm font-medium flex-shrink-0 px-6 py-2.5 rounded-full cursor-pointer hover:bg-healthcare-primary/20 transition-colors ${
-                  item.time === slotTime
-                    ? "bg-healthcare-primary text-white"
-                    : "text-gray-700 border border-gray-300"
-                }`}
-              >
-                {item.time.toLowerCase()}
-              </p>
-            ))}
+            docSlots[slotIndex].map((item, index) => {
+              const isBooked = isSlotBooked(item.slotDate, item.time)
+              return (
+                <p
+                  onClick={() => {
+                    handleSlotClick(item)
+                  }}
+                  onMouseDown={() => {}}
+                  onMouseUp={() => {}}
+                  key={index}
+                  className={`text-sm font-medium flex-shrink-0 px-6 py-2.5 rounded-full transition-colors cursor-pointer ${
+                    isBooked
+                      ? "bg-red-100 text-red-600 border border-red-300 opacity-75"
+                      : item.time === slotTime
+                      ? "bg-healthcare-primary text-white hover:bg-healthcare-secondary"
+                      : "text-gray-700 border border-gray-300 hover:bg-healthcare-primary/20"
+                  }`}
+                >
+                  {item.time.toLowerCase()}
+                  {isBooked && " (Booked)"}
+                </p>
+              )
+            })}
         </div>
 
         <button

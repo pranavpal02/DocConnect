@@ -4,6 +4,7 @@ import { AppContext } from "../context/AppContext"
 import axios from "axios"
 import { toast } from "react-toastify"
 import { assets } from "../assets/assets"
+import uploadArea from "../assets/upload_area.png"
 
 const MyAppointments = () => {
   const { backendUrl, token } = useContext(AppContext)
@@ -11,6 +12,7 @@ const MyAppointments = () => {
 
   const [appointments, setAppointments] = useState([])
   const [payment, setPayment] = useState("")
+  const [processingPayment, setProcessingPayment] = useState(false)
 
   const months = [
     "Jan",
@@ -41,7 +43,6 @@ const MyAppointments = () => {
       })
       setAppointments(data.appointments.reverse())
     } catch (error) {
-      console.log(error)
       toast.error(error.message)
     }
   }
@@ -61,136 +62,31 @@ const MyAppointments = () => {
         toast.error(data.message)
       }
     } catch (error) {
-      console.log(error)
       toast.error(error.message)
     }
   }
 
-  const initPay = (order) => {
-    const options = {
-      key: import.meta.env.VITE_RAZORPAY_KEY_ID,
-      amount: order.amount,
-      currency: order.currency,
-      name: "Appointment Payment",
-      description: "Appointment Payment",
-      order_id: order.id,
-      receipt: order.receipt,
-      handler: async (response) => {
-        console.log(response)
-
-        try {
-          const { data } = await axios.post(
-            backendUrl + "/api/user/verifyRazorpay",
-            response,
-            { headers: { token } }
-          )
-          if (data.success) {
-            navigate("/my-appointments")
-            getUserAppointments()
-          }
-        } catch (error) {
-          console.log(error)
-          toast.error(error.message)
-        }
-      },
-    }
-    const rzp = new window.Razorpay(options)
-    rzp.open()
-  }
-
-  const appointmentRazorpay = async (appointmentId) => {
+  const simulatePayment = async (appointmentId) => {
     try {
+      setProcessingPayment(true)
       const { data } = await axios.post(
-        backendUrl + "/api/user/payment-razorpay",
+        backendUrl + "/api/user/simulate-payment",
         { appointmentId },
         { headers: { token } }
       )
       if (data.success) {
-        initPay(data.order)
+        toast.success("Payment completed successfully!")
+        getUserAppointments()
+        setPayment("")
       } else {
         toast.error(data.message)
       }
     } catch (error) {
-      console.log(error)
       toast.error(error.message)
+    } finally {
+      setProcessingPayment(false)
     }
   }
-
-  const appointmentStripe = async (appointmentId) => {
-    try {
-      const { data } = await axios.post(
-        backendUrl + "/api/user/payment-stripe",
-        { appointmentId },
-        { headers: { token } }
-      )
-      if (data.success) {
-        const { session_url } = data
-        window.location.replace(session_url)
-      } else {
-        toast.error(data.message)
-      }
-    } catch (error) {
-      console.log(error)
-      toast.error(error.message)
-    }
-  }
-
-  // ADD THIS: Sample data for testing
-  useEffect(() => {
-    setAppointments([
-      {
-        _id: "dummy1",
-        cancelled: false,
-        isCompleted: false,
-        payment: "",
-        slotDate: "25_04_2025",
-        slotTime: "11:00 AM",
-        docData: {
-          name: "Dr. Alex Johnson",
-          speciality: "Cardiologist",
-          address: {
-            line1: "123 Heart Avenue",
-            line2: "Toronto, Canada",
-          },
-          image: "https://via.placeholder.com/150",
-        },
-      },
-      {
-        _id: "dummy2",
-        cancelled: true,
-        isCompleted: false,
-        payment: "",
-        slotDate: "27_04_2025",
-        slotTime: "3:00 PM",
-        docData: {
-          name: "Dr. Emily Watson",
-          speciality: "Dermatologist",
-          address: {
-            line1: "456 Skin Road",
-            line2: "Mississauga, Canada",
-          },
-          image: "https://via.placeholder.com/150",
-        },
-      },
-      {
-        _id: "dummy3",
-        cancelled: false,
-        isCompleted: true,
-        payment: "paid",
-        slotDate: "20_03_2025",
-        slotTime: "9:30 AM",
-        docData: {
-          name: "Dr. John Lee",
-          speciality: "Pediatrician",
-          address: {
-            line1: "789 Kids Blvd",
-            line2: "Brampton, Canada",
-          },
-          image: "https://via.placeholder.com/150",
-        },
-      },
-    ])
-  }, [])
 
   useEffect(() => {
     if (token) {
@@ -212,8 +108,9 @@ const MyAppointments = () => {
             <div>
               <img
                 className="w-36 bg-[#EAEFFF]"
-                src={item.docData.image}
+                src={item.docData.image || uploadArea}
                 alt=""
+                onError={e => { e.target.src = uploadArea; }}
               />
             </div>
             <div className="flex-1 text-sm text-[#5E5E5E]">
@@ -230,13 +127,13 @@ const MyAppointments = () => {
                 </span>{" "}
                 {slotDateFormat(item.slotDate)} | {item.slotTime}
               </p>
+              <p className="mt-1 font-semibold text-blue-600">Amount: ${item.amount}</p>
             </div>
             <div></div>
             <div className="flex flex-col gap-2 justify-end text-sm text-center">
               {!item.cancelled &&
                 !item.payment &&
-                !item.isCompleted &&
-                payment !== item._id && (
+                !item.isCompleted && (
                   <button
                     onClick={() => setPayment(item._id)}
                     className="text-[#696969] sm:min-w-48 py-2 border rounded hover:bg-primary hover:text-white transition-all duration-300"
@@ -249,33 +146,15 @@ const MyAppointments = () => {
                 !item.isCompleted &&
                 payment === item._id && (
                   <button
-                    onClick={() => appointmentStripe(item._id)}
+                    onClick={() => simulatePayment(item._id)}
+                    disabled={processingPayment}
                     className="text-[#696969] sm:min-w-48 py-2 border rounded hover:bg-gray-100 hover:text-white transition-all duration-300 flex items-center justify-center"
                   >
-                    <img
-                      className="max-w-20 max-h-5"
-                      src={assets.stripe_logo}
-                      alt=""
-                    />
+                    {processingPayment ? "Processing..." : "Pay Now"}
                   </button>
                 )}
-              {!item.cancelled &&
-                !item.payment &&
-                !item.isCompleted &&
-                payment === item._id && (
-                  <button
-                    onClick={() => appointmentRazorpay(item._id)}
-                    className="text-[#696969] sm:min-w-48 py-2 border rounded hover:bg-gray-100 hover:text-white transition-all duration-300 flex items-center justify-center"
-                  >
-                    <img
-                      className="max-w-20 max-h-5"
-                      src={assets.razorpay_logo}
-                      alt=""
-                    />
-                  </button>
-                )}
-              {!item.cancelled && item.payment && !item.isCompleted && (
-                <button className="sm:min-w-48 py-2 border rounded text-[#696969]  bg-[#EAEFFF]">
+              {item.payment && (
+                <button className="sm:min-w-48 py-2 border rounded text-[#696969]  bg-[#EAEFFF]" disabled>
                   Paid
                 </button>
               )}
