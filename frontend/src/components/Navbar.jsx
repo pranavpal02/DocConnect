@@ -6,6 +6,7 @@ import { AppContext } from "../context/AppContext"
 const Navbar = () => {
   const navigate = useNavigate()
   const [showMenu, setShowMenu] = useState(false)
+  const [showDropdown, setShowDropdown] = useState(false)
   const { token, setToken, userData } = useContext(AppContext)
 
   const logout = () => {
@@ -72,35 +73,55 @@ const Navbar = () => {
         {/* Actions */}
         <div className="flex items-center gap-6">
           {token && userData ? (
-            <div className="relative flex items-center gap-3 cursor-pointer group">
+            <div className="relative flex items-center gap-3 cursor-pointer">
               <img
                 className="w-10 rounded-full border border-gray-300"
-                src={userData.image}
+                src={userData.image || assets.profile_pic}
                 alt="Profile"
+                onError={(e) => {
+                  e.target.src = assets.profile_pic
+                }}
               />
-              <img className="w-4" src={assets.dropdown_icon} alt="Dropdown" />
-              <div className="absolute top-12 right-0 text-base font-medium text-gray-600 z-30 hidden group-hover:block animate-fade-in">
-                <div className="min-w-56 bg-white rounded-lg shadow-lg p-4 flex flex-col gap-4">
-                  <p
-                    onClick={() => navigate("/my-profile")}
-                    className="hover:text-healthcare-primary hover:underline cursor-pointer font-sans"
-                  >
-                    My Profile
-                  </p>
-                  <p
-                    onClick={() => navigate("/my-appointments")}
-                    className="hover:text-healthcare-primary hover:underline cursor-pointer font-sans"
-                  >
-                    My Appointments
-                  </p>
-                  <p
-                    onClick={logout}
-                    className="hover:text-red-600 hover:underline cursor-pointer font-sans"
-                  >
-                    Logout
-                  </p>
+              <img
+                className="w-4 cursor-pointer"
+                src={assets.dropdown_icon}
+                alt="Dropdown"
+                onClick={() => setShowDropdown((prev) => !prev)}
+              />
+
+              {showDropdown && (
+                <div className="absolute top-12 right-0 text-base font-medium text-gray-600 z-30 animate-fade-in">
+                  <div className="min-w-56 bg-white rounded-lg shadow-lg p-4 flex flex-col gap-4">
+                    <p
+                      onClick={() => {
+                        navigate("/my-profile")
+                        setShowDropdown(false)
+                      }}
+                      className="hover:text-healthcare-primary hover:underline cursor-pointer font-sans"
+                    >
+                      My Profile
+                    </p>
+                    <p
+                      onClick={() => {
+                        navigate("/my-appointments")
+                        setShowDropdown(false)
+                      }}
+                      className="hover:text-healthcare-primary hover:underline cursor-pointer font-sans"
+                    >
+                      My Appointments
+                    </p>
+                    <p
+                      onClick={() => {
+                        logout()
+                        setShowDropdown(false)
+                      }}
+                      className="hover:text-red-600 hover:underline cursor-pointer font-sans"
+                    >
+                      Logout
+                    </p>
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
           ) : (
             <button

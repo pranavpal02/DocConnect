@@ -12,36 +12,34 @@ const Login = () => {
   const [password, setPassword] = useState("")
 
   const navigate = useNavigate()
-  const { backendUrl, token, setToken } = useContext(AppContext)
+  const { backendUrl, token, setToken, fetchUserData } = useContext(AppContext)
 
   const onSubmitHandler = async (event) => {
     event.preventDefault()
 
-    if (state === "Sign Up") {
-      const { data } = await axios.post(backendUrl + "/api/user/register", {
-        name,
-        email,
-        password,
-      })
+    try {
+      const endpoint =
+        state === "Sign Up"
+          ? `${backendUrl}/api/user/register`
+          : `${backendUrl}/api/user/login`
+
+      const payload =
+        state === "Sign Up" ? { name, email, password } : { email, password }
+
+      const { data } = await axios.post(endpoint, payload)
 
       if (data.success) {
         localStorage.setItem("token", data.token)
         setToken(data.token)
+        await fetchUserData(data.token)
+        toast.success(
+          `${state === "Sign Up" ? "Account created" : "Login"} successfully!`
+        )
       } else {
         toast.error(data.message)
       }
-    } else {
-      const { data } = await axios.post(backendUrl + "/api/user/login", {
-        email,
-        password,
-      })
-
-      if (data.success) {
-        localStorage.setItem("token", data.token)
-        setToken(data.token)
-      } else {
-        toast.error(data.message)
-      }
+    } catch (err) {
+      toast.error(err.response?.data?.message || "Something went wrong")
     }
   }
 
@@ -49,74 +47,93 @@ const Login = () => {
     if (token) {
       navigate("/")
     }
-  }, [token])
+  }, [token, navigate])
 
   return (
-    <form onSubmit={onSubmitHandler} className="min-h-[80vh] flex items-center">
-      <div className="flex flex-col gap-3 m-auto items-start p-8 min-w-[340px] sm:min-w-96 border rounded-xl text-[#5E5E5E] text-sm shadow-lg">
-        <p className="text-2xl font-semibold">
-          {state === "Sign Up" ? "Create Account" : "Login"}
-        </p>
-        <p>
-          Please {state === "Sign Up" ? "sign up" : "log in"} to book
-          appointment
-        </p>
-        {state === "Sign Up" ? (
-          <div className="w-full ">
-            <p>Full Name</p>
+    <form
+      onSubmit={onSubmitHandler}
+      className="min-h-[80vh] flex items-center justify-center bg-healthcare-light px-4"
+    >
+      <div className="flex flex-col gap-4 w-full sm:max-w-md bg-white shadow-xl rounded-2xl p-8 text-gray-700 animate-fade-in">
+        <div>
+          <h2 className="text-3xl font-semibold text-healthcare-primary mb-1">
+            {state === "Sign Up" ? "Create Account" : "Login"}
+          </h2>
+          <p className="text-sm text-muted">
+            {state === "Sign Up"
+              ? "Join us to book appointments"
+              : "Welcome back! Please login"}
+          </p>
+        </div>
+
+        {state === "Sign Up" && (
+          <div>
+            <label className="text-sm mb-1 block">Full Name</label>
             <input
               onChange={(e) => setName(e.target.value)}
               value={name}
-              className="border border-[#DADADA] rounded w-full p-2 mt-1"
               type="text"
               required
+              className="w-full border border-border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-healthcare-primary transition"
+              placeholder="Enter your full name"
             />
           </div>
-        ) : null}
-        <div className="w-full ">
-          <p>Email</p>
+        )}
+
+        <div>
+          <label className="text-sm mb-1 block">Email</label>
           <input
             onChange={(e) => setEmail(e.target.value)}
             value={email}
-            className="border border-[#DADADA] rounded w-full p-2 mt-1"
             type="email"
             required
+            className="w-full border border-border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-healthcare-primary transition"
+            placeholder="you@example.com"
           />
         </div>
-        <div className="w-full ">
-          <p>Password</p>
+
+        <div>
+          <label className="text-sm mb-1 block">Password</label>
           <input
             onChange={(e) => setPassword(e.target.value)}
             value={password}
-            className="border border-[#DADADA] rounded w-full p-2 mt-1"
             type="password"
             required
+            className="w-full border border-border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-healthcare-primary transition"
+            placeholder="Enter password"
           />
         </div>
-        <button className="bg-primary text-white w-full py-2 my-2 rounded-md text-base">
+
+        <button
+          type="submit"
+          className="bg-healthcare-primary hover:bg-healthcare-secondary text-white font-medium py-2 rounded-md transition"
+        >
           {state === "Sign Up" ? "Create account" : "Login"}
         </button>
-        {state === "Sign Up" ? (
-          <p>
-            Already have an account?{" "}
-            <span
-              onClick={() => setState("Login")}
-              className="text-primary underline cursor-pointer"
-            >
-              Login here
-            </span>
-          </p>
-        ) : (
-          <p>
-            Create an new account?{" "}
-            <span
-              onClick={() => setState("Sign Up")}
-              className="text-primary underline cursor-pointer"
-            >
-              Click here
-            </span>
-          </p>
-        )}
+
+        <div className="text-sm text-center mt-2">
+          {state === "Sign Up" ? (
+            <>
+              Already have an account?{" "}
+              <span
+                onClick={() => setState("Login")}
+                className="text-healthcare-primary font-semibold underline cursor-pointer"
+              >
+                Login here
+              </span>
+            </>
+          ) : (
+            <>
+              New here?{" "}
+              <span
+                onClick={() => setState("Sign Up")}
+                className="text-healthcare-primary font-semibold underline cursor-pointer"
+              >
+                Create an account
+              </span>
+            </>
+          )}
+        </div>
       </div>
     </form>
   )
