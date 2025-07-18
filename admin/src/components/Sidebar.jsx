@@ -8,52 +8,52 @@ const Sidebar = () => {
   const { aToken } = useContext(AdminContext)
 
   return (
-    <div className="min-h-screen bg-white border-r">
+    <div className="w-full lg:w-auto lg:min-h-screen bg-white border-b lg:border-b-0 lg:border-r">
       {aToken && (
-        <ul className="text-[#515151] mt-5">
+        <ul className="text-[#515151] flex lg:flex-col lg:mt-5 overflow-x-auto lg:overflow-x-visible">
           <NavLink
             to={"/admin-dashboard"}
             className={({ isActive }) =>
-              `flex items-center gap-3 py-3.5 px-3 md:px-9 md:min-w-72 cursor-pointer ${
-                isActive ? "bg-[#F2F3FF] border-r-4 border-primary" : ""
+              `flex items-center gap-3 py-3.5 px-3 lg:px-9 lg:min-w-72 cursor-pointer whitespace-nowrap ${
+                isActive ? "bg-[#F2F3FF] border-b-4 lg:border-b-0 lg:border-r-4 border-primary" : ""
               }`
             }
           >
             <img className="min-w-5" src={assets.home_icon} alt="" />
-            <p className="hidden md:block">Dashboard</p>
+            <p className="hidden lg:block">Dashboard</p>
           </NavLink>
           <NavLink
             to={"/all-appointments"}
             className={({ isActive }) =>
-              `flex items-center gap-3 py-3.5 px-3 md:px-9 md:min-w-72 cursor-pointer ${
-                isActive ? "bg-[#F2F3FF] border-r-4 border-primary" : ""
+              `flex items-center gap-3 py-3.5 px-3 lg:px-9 lg:min-w-72 cursor-pointer whitespace-nowrap ${
+                isActive ? "bg-[#F2F3FF] border-b-4 lg:border-b-0 lg:border-r-4 border-primary" : ""
               }`
             }
           >
             <img className="min-w-5" src={assets.appointment_icon} alt="" />
-            <p className="hidden md:block">Appointments</p>
+            <p className="hidden lg:block">Appointments</p>
           </NavLink>
           <NavLink
             to={"/add-doctor"}
             className={({ isActive }) =>
-              `flex items-center gap-3 py-3.5 px-3 md:px-9 md:min-w-72 cursor-pointer ${
-                isActive ? "bg-[#F2F3FF] border-r-4 border-primary" : ""
+              `flex items-center gap-3 py-3.5 px-3 lg:px-9 lg:min-w-72 cursor-pointer whitespace-nowrap ${
+                isActive ? "bg-[#F2F3FF] border-b-4 lg:border-b-0 lg:border-r-4 border-primary" : ""
               }`
             }
           >
             <img className="min-w-5" src={assets.add_icon} alt="" />
-            <p className="hidden md:block">Add Doctor</p>
+            <p className="hidden lg:block">Add Doctor</p>
           </NavLink>
           <NavLink
             to={"/doctor-list"}
             className={({ isActive }) =>
-              `flex items-center gap-3 py-3.5 px-3 md:px-9 md:min-w-72 cursor-pointer ${
-                isActive ? "bg-[#F2F3FF] border-r-4 border-primary" : ""
+              `flex items-center gap-3 py-3.5 px-3 lg:px-9 lg:min-w-72 cursor-pointer whitespace-nowrap ${
+                isActive ? "bg-[#F2F3FF] border-b-4 lg:border-b-0 lg:border-r-4 border-primary" : ""
               }`
             }
           >
             <img className="min-w-5" src={assets.people_icon} alt="" />
-            <p className="hidden md:block">Doctors List</p>
+            <p className="hidden lg:block">Doctors List</p>
           </NavLink>
         </ul>
       )}

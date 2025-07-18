@@ -11,6 +11,10 @@ const Login = () => {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
 
+  const [showForgot, setShowForgot] = useState(false)
+  const [forgotEmail, setForgotEmail] = useState("")
+  const [forgotLoading, setForgotLoading] = useState(false)
+
   const navigate = useNavigate()
   const { backendUrl, token, setToken, fetchUserData } = useContext(AppContext)
 
@@ -41,6 +45,23 @@ const Login = () => {
     } catch (err) {
       toast.error(err.response?.data?.message || "Something went wrong")
     }
+  }
+
+  const handleForgotPassword = async () => {
+    setForgotLoading(true)
+    try {
+      const { data } = await axios.post(`${backendUrl}/api/user/forgot-password`, { email: forgotEmail })
+      if (data.success) {
+        toast.success(data.message)
+        setShowForgot(false)
+        setForgotEmail("")
+      } else {
+        toast.error(data.message)
+      }
+    } catch (err) {
+      toast.error(err.response?.data?.message || "Something went wrong")
+    }
+    setForgotLoading(false)
   }
 
   useEffect(() => {
@@ -134,6 +155,51 @@ const Login = () => {
             </>
           )}
         </div>
+        <div className="text-right text-xs mb-2">
+          {state === "Login" && (
+            <span
+              className="text-healthcare-primary underline cursor-pointer"
+              onClick={() => setShowForgot(true)}
+            >
+              Forgot Password?
+            </span>
+          )}
+        </div>
+        {showForgot && (
+          <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">
+            <div className="bg-white p-6 rounded-xl shadow-xl w-full max-w-xs flex flex-col gap-3">
+              <h3 className="text-lg font-semibold mb-2">Reset Password</h3>
+              <div className="flex flex-col gap-3">
+                <input
+                  type="email"
+                  className="border px-3 py-2 rounded"
+                  placeholder="Enter your email"
+                  value={forgotEmail}
+                  onChange={e => setForgotEmail(e.target.value)}
+                  required
+                />
+                <div className="flex gap-2">
+                  <button
+                    type="button"
+                    className="bg-healthcare-primary text-white px-4 py-2 rounded w-full"
+                    disabled={forgotLoading}
+                    onClick={handleForgotPassword}
+                  >
+                    {forgotLoading ? "Sending..." : "Send Reset Link"}
+                  </button>
+                  <button
+                    type="button"
+                    className="border px-4 py-2 rounded w-full"
+                    onClick={() => setShowForgot(false)}
+                    disabled={forgotLoading}
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </form>
   )
