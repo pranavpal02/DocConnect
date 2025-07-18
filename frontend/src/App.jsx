@@ -17,7 +17,7 @@ import ResetPassword from "./pages/ResetPassword"
 
 const App = () => {
   return (
-    <div className="mx-2 sm:mx-[5%]">
+    <div className="w-full ml-2 mr-2 sm:ml-4 sm:mr-4 lg:ml-6 lg:mr-6">
       <ToastContainer />
       <Navbar />
       <Routes>
