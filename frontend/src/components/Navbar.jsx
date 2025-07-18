@@ -75,7 +75,7 @@ const Navbar = () => {
           {token && userData ? (
             <div className="relative flex items-center gap-3 cursor-pointer">
               <img
-                className="w-10 rounded-full border border-gray-300"
+                className="w-10 h-10 rounded-full border border-gray-300 object-cover"
                 src={userData.image || assets.profile_pic}
                 alt="Profile"
                 onError={(e) => {

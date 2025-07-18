@@ -93,25 +93,38 @@ const MyProfile = () => {
 
   if (!userData) {
     return (
-      <div className="max-w-2xl mx-auto bg-healthcare-light rounded-xl shadow-md p-6 sm:p-10 mt-6 text-center">
-        <p className="text-gray-600">Loading profile...</p>
+      <div className="w-full bg-gradient-to-br from-healthcare-light to-gray-100 rounded-xl shadow-sm p-8 mt-6 text-center animate-pulse">
+        <div className="w-16 h-16 bg-healthcare-primary/20 rounded-full mx-auto mb-4 animate-spin"></div>
+        <p className="text-gray-600 text-lg">Loading your profile...</p>
       </div>
     )
   }
 
   return (
-    <div className="max-w-2xl mx-auto bg-healthcare-light rounded-xl shadow-md p-6 sm:p-10 mt-6 text-sm text-[#262626]">
-      <div className="flex flex-col items-center gap-4">
+    <div className="w-full bg-gradient-to-br from-healthcare-light to-gray-100 rounded-xl shadow-sm p-6 sm:p-10 mt-6 text-base text-[#262626] animate-fade-in">
+      {/* Header Section */}
+      <div className="text-center mb-8 animate-fade-in">
+        <h1 className="text-4xl font-bold text-healthcare-primary mb-2">My Profile</h1>
+        <p className="text-gray-600">Manage your personal information and preferences</p>
+      </div>
+
+      {/* Profile Image and Name Section */}
+      <div className="flex flex-col items-center gap-6 mb-8 animate-fade-in delay-100">
         {isEdit ? (
-          <label htmlFor="image" className="relative cursor-pointer">
+          <label htmlFor="image" className="relative cursor-pointer group">
+            <div className="relative">
+              <img
+                className="w-48 h-48 object-cover rounded-full border-4 border-healthcare-primary shadow-sm transition-all duration-300 group-hover:scale-105"
+                src={image ? URL.createObjectURL(image) : (userData.image || assets.profile_pic)}
+                alt="profile"
+                onError={(e) => e.target.src = assets.profile_pic}
+              />
+              <div className="absolute inset-0 bg-black/20 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                <span className="text-white font-semibold">Click to change</span>
+              </div>
+            </div>
             <img
-              className="w-36 rounded-full border-4 border-healthcare-primary shadow transition hover:opacity-80"
-              src={image ? URL.createObjectURL(image) : (userData.image || assets.profile_pic)}
-              alt="profile"
-              onError={(e) => e.target.src = assets.profile_pic}
-            />
-            <img
-              className="w-8 absolute bottom-2 right-2"
+              className="w-10 absolute bottom-4 right-4 bg-white rounded-full p-2 shadow-sm"
               src={assets?.upload_icon || "https://via.placeholder.com/40"}
               alt="upload"
             />
@@ -124,63 +137,80 @@ const MyProfile = () => {
             />
           </label>
         ) : (
-          <img
-            className="w-36 h-36 object-cover border-4 border-healthcare-primary shadow rounded-full"
-            src={userData.image || assets.profile_pic}
-            alt="profile"
-            onError={(e) => e.target.src = assets.profile_pic}
-          />
+          <div className="relative group">
+            <img
+              className="w-48 h-48 object-cover border-4 border-healthcare-primary shadow-sm rounded-full transition-all duration-300 group-hover:scale-105"
+              src={userData.image || assets.profile_pic}
+              alt="profile"
+              onError={(e) => e.target.src = assets.profile_pic}
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-healthcare-primary/20 to-transparent rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          </div>
         )}
 
         {isEdit ? (
           <input
-            className="bg-gray-50 text-2xl font-semibold text-center px-2 py-1 rounded"
+            className="bg-white text-3xl font-bold text-center px-6 py-3 rounded-lg border-2 border-healthcare-primary focus:outline-none focus:ring-2 focus:ring-healthcare-primary/50 transition-all duration-300"
             type="text"
             onChange={(e) => handleInputChange("name", e.target.value)}
             value={formData.name}
           />
         ) : (
-          <p className="font-semibold text-2xl text-healthcare-primary mt-2">
-            {userData.name}
-          </p>
+          <div className="text-center">
+            <p className="font-bold text-4xl text-healthcare-primary mb-1">
+              {userData.name}
+            </p>
+            <p className="text-gray-500 text-sm">Member since {new Date().getFullYear()}</p>
+          </div>
         )}
       </div>
 
-      <hr className="my-6 border-gray-300" />
+      {/* Contact Information Card */}
+      <div className="bg-white rounded-xl shadow-sm p-6 mb-6 animate-fade-in delay-200">
+        <div className="flex items-center gap-3 mb-4">
+          <div className="w-8 h-8 bg-healthcare-primary/10 rounded-full flex items-center justify-center">
+            <span className="text-healthcare-primary text-lg">📞</span>
+          </div>
+          <h2 className="text-2xl font-bold text-gray-800">Contact Information</h2>
+        </div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-[1fr_3fr] gap-4 text-gray-800">
+          <div className="flex items-center gap-2">
+            <span className="text-healthcare-primary">📧</span>
+            <p className="font-semibold text-lg">Email:</p>
+          </div>
+          <p className="text-blue-600 font-medium text-lg">{userData.email}</p>
 
-      {/* Contact Information */}
-      <div>
-        <p className="text-gray-600 font-semibold underline mb-3">
-          Contact Information
-        </p>
-        <div className="grid grid-cols-[1fr_3fr] gap-y-3 text-gray-800">
-          <p className="font-medium">Email:</p>
-          <p className="text-blue-600">{userData.email}</p>
-
-          <p className="font-medium">Phone:</p>
+          <div className="flex items-center gap-2">
+            <span className="text-healthcare-primary">📱</span>
+            <p className="font-semibold text-lg">Phone:</p>
+          </div>
           {isEdit ? (
             <input
-              className="bg-gray-50 px-2 py-1 rounded"
+              className="bg-gray-50 px-4 py-3 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-healthcare-primary/50 transition-all duration-300 text-lg"
               type="text"
               onChange={(e) => handleInputChange("phone", e.target.value)}
               value={formData.phone}
             />
           ) : (
-            <p className="text-blue-600">{userData.phone}</p>
+            <p className="text-blue-600 font-medium text-lg">{userData.phone}</p>
           )}
 
-          <p className="font-medium">Address:</p>
+          <div className="flex items-center gap-2">
+            <span className="text-healthcare-primary">📍</span>
+            <p className="font-semibold text-lg">Address:</p>
+          </div>
           {isEdit ? (
             <div className="flex flex-col gap-2">
               <input
-                className="bg-gray-50 px-2 py-1 rounded"
+                className="bg-gray-50 px-4 py-3 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-healthcare-primary/50 transition-all duration-300 text-lg"
                 type="text"
                 placeholder="Address Line 1"
                 onChange={(e) => handleInputChange("address.line1", e.target.value)}
                 value={formData.address.line1}
               />
               <input
-                className="bg-gray-50 px-2 py-1 rounded"
+                className="bg-gray-50 px-4 py-3 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-healthcare-primary/50 transition-all duration-300 text-lg"
                 type="text"
                 placeholder="Address Line 2"
                 onChange={(e) => handleInputChange("address.line2", e.target.value)}
@@ -188,7 +218,7 @@ const MyProfile = () => {
               />
             </div>
           ) : (
-            <p className="text-gray-600">
+            <p className="text-gray-600 text-lg">
               {userData.address?.line1 || "Not provided"} <br />
               {userData.address?.line2 || ""}
             </p>
@@ -196,18 +226,23 @@ const MyProfile = () => {
         </div>
       </div>
 
-      <hr className="my-6 border-gray-300" />
-
-      {/* Basic Info */}
-      <div>
-        <p className="text-gray-600 font-semibold underline mb-3">
-          Basic Information
-        </p>
-        <div className="grid grid-cols-[1fr_3fr] gap-y-3 text-gray-800">
-          <p className="font-medium">Gender:</p>
+      {/* Basic Information Card */}
+      <div className="bg-white rounded-xl shadow-sm p-6 mb-8 animate-fade-in delay-300">
+        <div className="flex items-center gap-3 mb-4">
+          <div className="w-8 h-8 bg-healthcare-primary/10 rounded-full flex items-center justify-center">
+            <span className="text-healthcare-primary text-lg">👤</span>
+          </div>
+          <h2 className="text-2xl font-bold text-gray-800">Basic Information</h2>
+        </div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-[1fr_3fr] gap-4 text-gray-800">
+          <div className="flex items-center gap-2">
+            <span className="text-healthcare-primary">⚧</span>
+            <p className="font-semibold text-lg">Gender:</p>
+          </div>
           {isEdit ? (
             <select
-              className="bg-gray-50 px-2 py-1 rounded"
+              className="bg-gray-50 px-4 py-3 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-healthcare-primary/50 transition-all duration-300 text-lg"
               onChange={(e) => handleInputChange("gender", e.target.value)}
               value={formData.gender}
             >
@@ -216,37 +251,48 @@ const MyProfile = () => {
               <option value="Female">Female</option>
             </select>
           ) : (
-            <p className="text-gray-600">{userData.gender}</p>
+            <p className="text-gray-600 font-medium text-lg">{userData.gender}</p>
           )}
 
-          <p className="font-medium">Birthday:</p>
+          <div className="flex items-center gap-2">
+            <span className="text-healthcare-primary">🎂</span>
+            <p className="font-semibold text-lg">Birthday:</p>
+          </div>
           {isEdit ? (
             <input
-              className="bg-gray-50 px-2 py-1 rounded"
+              className="bg-gray-50 px-4 py-3 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-healthcare-primary/50 transition-all duration-300 text-lg"
               type="date"
               onChange={(e) => handleInputChange("dob", e.target.value)}
               value={formData.dob}
             />
           ) : (
-            <p className="text-gray-600">{userData.dob || "Not provided"}</p>
+            <p className="text-gray-600 font-medium text-lg">{userData.dob || "Not provided"}</p>
           )}
         </div>
       </div>
 
-      <div className="mt-8 flex justify-center gap-4">
+      {/* Action Buttons */}
+      <div className="flex justify-center gap-4 animate-fade-in delay-400">
         {isEdit ? (
           <>
             <button
               onClick={handleSave}
               disabled={loading}
-              className="border border-healthcare-primary px-8 py-2 rounded-full hover:bg-healthcare-primary hover:text-white transition disabled:opacity-50"
+              className="bg-healthcare-primary text-white px-10 py-4 rounded-full hover:bg-healthcare-secondary transform hover:scale-105 transition-all duration-300 disabled:opacity-50 disabled:transform-none shadow-sm font-semibold text-lg"
             >
-              {loading ? "Saving..." : "Save"}
+              {loading ? (
+                <div className="flex items-center gap-2">
+                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                  Saving...
+                </div>
+              ) : (
+                "Save Changes"
+              )}
             </button>
             <button
               onClick={handleCancel}
               disabled={loading}
-              className="border border-gray-400 px-8 py-2 rounded-full hover:bg-gray-400 hover:text-white transition disabled:opacity-50"
+              className="bg-gray-500 text-white px-10 py-4 rounded-full hover:bg-gray-600 transform hover:scale-105 transition-all duration-300 disabled:opacity-50 disabled:transform-none shadow-sm font-semibold text-lg"
             >
               Cancel
             </button>
@@ -254,9 +300,9 @@ const MyProfile = () => {
         ) : (
           <button
             onClick={() => setIsEdit(true)}
-            className="border border-healthcare-primary px-8 py-2 rounded-full hover:bg-healthcare-primary hover:text-white transition"
+            className="bg-healthcare-primary text-white px-10 py-4 rounded-full hover:bg-healthcare-secondary transform hover:scale-105 transition-all duration-300 shadow-sm font-semibold text-lg"
           >
-            Edit
+            ✏️ Edit Profile
           </button>
         )}
       </div>
