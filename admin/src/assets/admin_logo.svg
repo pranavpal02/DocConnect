@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="300" height="100" viewBox="0 0 300 100" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background circle for the icon -->
+  <circle cx="50" cy="50" r="35" fill="#4A90E2" opacity="0.1"/>
+  
+  <!-- Medical cross -->
+  <rect x="45" y="35" width="10" height="30" fill="#4A90E2" rx="2"/>
+  <rect x="35" y="45" width="30" height="10" fill="#4A90E2" rx="2"/>
+  
+  <!-- Connection dots and lines -->
+  <circle cx="25" cy="25" r="3" fill="#7ED321"/>
+  <circle cx="75" cy="25" r="3" fill="#7ED321"/>
+  <circle cx="25" cy="75" r="3" fill="#7ED321"/>
+  <circle cx="75" cy="75" r="3" fill="#7ED321"/>
+  
+  <!-- Connection lines -->
+  <line x1="28" y1="28" x2="42" y2="42" stroke="#7ED321" stroke-width="2" opacity="0.7"/>
+  <line x1="72" y1="28" x2="58" y2="42" stroke="#7ED321" stroke-width="2" opacity="0.7"/>
+  <line x1="28" y1="72" x2="42" y2="58" stroke="#7ED321" stroke-width="2" opacity="0.7"/>
+  <line x1="72" y1="72" x2="58" y2="58" stroke="#7ED321" stroke-width="2" opacity="0.7"/>
+  
+  <!-- Company name -->
+  <text x="110" y="40" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="#2C3E50">
+    Doc<tspan fill="#4A90E2">Connect</tspan>
+  </text>
+  
+  <!-- Tagline -->
+  <text x="110" y="58" font-family="Arial, sans-serif" font-size="12" fill="#7F8C8D">
+    Healthcare at your fingertips
+  </text>
+  
+  <!-- Home/digital element -->
+  <rect x="110" y="65" width="12" height="8" fill="none" stroke="#4A90E2" stroke-width="1.5" rx="1"/>
+  <polygon points="116,65 113,62 119,62" fill="#4A90E2"/>
+  <circle cx="114" cy="69" r="1" fill="#4A90E2"/>
+  
+  <text x="128" y="72" font-family="Arial, sans-serif" font-size="10" fill="#7F8C8D">
+    Book from home
+  </text>
+</svg>

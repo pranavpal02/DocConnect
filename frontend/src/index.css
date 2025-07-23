@@ -1,8 +1,24 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --healthcare-primary: 174 50% 35%;        /* deep teal */
+  --healthcare-secondary: 174 60% 60%;      /* lighter teal */
+  --healthcare-accent: 45 100% 50%;         /* yellowish accent */
+  --healthcare-light: 220 20% 98%;          /* off white */
+  --healthcare-success: 145 70% 40%;        /* success green */
+}
 
-.active hr{
-    @apply block
+* {
+  font-family: Outfit;
+}
+
+.active hr {
+  @apply block;
+}
+
+::-webkit-scrollbar {
+  @apply hidden;
 }

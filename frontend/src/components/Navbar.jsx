@@ -1,40 +1,192 @@
-import React from "react"
+import React, { useContext, useState } from "react"
 import { assets } from "../assets/assets"
-import { NavLink } from "react-router-dom"
+import { NavLink, useNavigate } from "react-router-dom"
+import { AppContext } from "../context/AppContext"
 
 const Navbar = () => {
+  const navigate = useNavigate()
+  const [showMenu, setShowMenu] = useState(false)
+  const [showDropdown, setShowDropdown] = useState(false)
+  const { token, setToken, userData } = useContext(AppContext)
+
+  const logout = () => {
+    localStorage.removeItem("token")
+    setToken(false)
+    navigate("/login")
+  }
+
   return (
-    <div className="flex items-center justify-between py-4 px-6">
-      {/* Logo */}
-      <img className="w-[14rem] cursor-pointer" src={assets.logo} alt="Logo" />
+    <header className="bg-gradient-to-br from-healthcare-light to-gray-100 shadow-lg rounded-b-xl sticky top-0 z-50">
+      <div className="w-full max-w-full mx-auto px-6 py-6 flex items-center justify-between">
+        {/* Logo */}
+        <img
+          onClick={() => navigate("/")}
+          className="w-44 cursor-pointer"
+          src={assets.logo}
+          alt="DocConnect logo"
+        />
 
-      {/* Navigation links */}
-      <ul className="hidden md:flex items-center gap-8 font-medium">
-        <NavLink to="/">
-          <li className="py-1">HOME</li>
-          <hr className="border-none outline-none h-0.5 bg-primary w-3/5 m-auto hidden" />
-        </NavLink>
-        <NavLink to="/doctors">
-          <li className="py-1">ALL DOCTORS</li>
-          <hr className="border-none outline-none h-0.5 bg-primary w-3/5 m-auto hidden" />
-        </NavLink>
-        <NavLink to="/about">
-          <li className="py-1">ABOUT</li>
-          <hr className="border-none outline-none h-0.5 bg-primary w-3/5 m-auto hidden" />
-        </NavLink>
-        <NavLink to="/contact">
-          <li className="py-1">CONTACT</li>
-          <hr className="border-none outline-none h-0.5 bg-primary w-3/5 m-auto hidden" />
-        </NavLink>
-      </ul>
+        {/* Desktop Nav */}
+        <nav className="hidden md:flex items-center gap-10 font-semibold text-gray-700 font-sans">
+          <NavLink
+            to="/"
+            className={({ isActive }) =>
+              isActive
+                ? "text-healthcare-primary border-b-2 border-healthcare-primary pb-1"
+                : "hover:text-healthcare-primary hover:underline transition-colors"
+            }
+          >
+            HOME
+          </NavLink>
+          <NavLink
+            to="/doctors"
+            className={({ isActive }) =>
+              isActive
+                ? "text-healthcare-primary border-b-2 border-healthcare-primary pb-1"
+                : "hover:text-healthcare-primary hover:underline transition-colors"
+            }
+          >
+            ALL DOCTORS
+          </NavLink>
+          <NavLink
+            to="/about"
+            className={({ isActive }) =>
+              isActive
+                ? "text-healthcare-primary border-b-2 border-healthcare-primary pb-1"
+                : "hover:text-healthcare-primary hover:underline transition-colors"
+            }
+          >
+            ABOUT
+          </NavLink>
+          <NavLink
+            to="/contact"
+            className={({ isActive }) =>
+              isActive
+                ? "text-healthcare-primary border-b-2 border-healthcare-primary pb-1"
+                : "hover:text-healthcare-primary hover:underline transition-colors"
+            }
+          >
+            CONTACT
+          </NavLink>
+        </nav>
 
-      {/* Buttons */}
-      <div>
-        <button className="bg-white text-grey font-semibold px-4 py-1 rounded-full hover:bg-gray-100">
-          Create Account
-        </button>
+        {/* Actions */}
+        <div className="flex items-center gap-6">
+          {token && userData ? (
+            <div className="relative flex items-center gap-3 cursor-pointer">
+              <img
+                className="w-10 h-10 rounded-full border border-gray-300 object-cover"
+                src={userData.image || assets.profile_pic}
+                alt="Profile"
+                onError={(e) => {
+                  e.target.src = assets.profile_pic
+                }}
+              />
+              <img
+                className="w-4 cursor-pointer"
+                src={assets.dropdown_icon}
+                alt="Dropdown"
+                onClick={() => setShowDropdown((prev) => !prev)}
+              />
+
+              {showDropdown && (
+                <div className="absolute top-12 right-0 text-base font-medium text-gray-600 z-30 animate-fade-in">
+                  <div className="min-w-56 bg-white rounded-lg shadow-lg p-4 flex flex-col gap-4">
+                    <p
+                      onClick={() => {
+                        navigate("/my-profile")
+                        setShowDropdown(false)
+                      }}
+                      className="hover:text-healthcare-primary hover:underline cursor-pointer font-sans"
+                    >
+                      My Profile
+                    </p>
+                    <p
+                      onClick={() => {
+                        navigate("/my-appointments")
+                        setShowDropdown(false)
+                      }}
+                      className="hover:text-healthcare-primary hover:underline cursor-pointer font-sans"
+                    >
+                      My Appointments
+                    </p>
+                    <p
+                      onClick={() => {
+                        logout()
+                        setShowDropdown(false)
+                      }}
+                      className="hover:text-red-600 hover:underline cursor-pointer font-sans"
+                    >
+                      Logout
+                    </p>
+                  </div>
+                </div>
+              )}
+            </div>
+          ) : (
+            <button
+              onClick={() => navigate("/login")}
+              className="bg-healthcare-primary hover:bg-healthcare-secondary text-white px-6 py-2.5 rounded-full hidden md:block transition-colors font-medium font-sans"
+            >
+              Create Account
+            </button>
+          )}
+          <img
+            onClick={() => setShowMenu(true)}
+            className="w-8 md:hidden cursor-pointer"
+            src={assets.menu_icon}
+            alt="Menu"
+          />
+        </div>
       </div>
-    </div>
+
+      {/* Mobile Menu */}
+      <div
+        className={`md:hidden ${
+          showMenu ? "fixed inset-0 w-full h-full z-40 bg-white" : "h-0 w-0"
+        } overflow-hidden transition-all animate-slide-in`}
+      >
+        <div className="flex items-center justify-between px-6 py-6 border-b border-gray-200 shadow-sm">
+          <img src={assets.logo} className="w-40" alt="DocConnect logo" />
+          <img
+            onClick={() => setShowMenu(false)}
+            src={assets.cross_icon}
+            className="w-8 cursor-pointer"
+            alt="Close"
+          />
+        </div>
+        <ul className="flex flex-col items-center gap-6 mt-8 text-xl font-semibold font-sans">
+          <NavLink
+            onClick={() => setShowMenu(false)}
+            to="/"
+            className="hover:text-healthcare-primary hover:underline transition-colors"
+          >
+            HOME
+          </NavLink>
+          <NavLink
+            onClick={() => setShowMenu(false)}
+            to="/doctors"
+            className="hover:text-healthcare-primary hover:underline transition-colors"
+          >
+            ALL DOCTORS
+          </NavLink>
+          <NavLink
+            onClick={() => setShowMenu(false)}
+            to="/about"
+            className="hover:text-healthcare-primary hover:underline transition-colors"
+          >
+            ABOUT
+          </NavLink>
+          <NavLink
+            onClick={() => setShowMenu(false)}
+            to="/contact"
+            className="hover:text-healthcare-primary hover:underline transition-colors"
+          >
+            CONTACT
+          </NavLink>
+        </ul>
+      </div>
+    </header>
   )
 }
 
