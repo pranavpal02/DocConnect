@@ -286,6 +286,9 @@ const cancelAppointment = async (req, res) => {
     if (appointment.userId !== userId) {
       return res.json({ success: false, message: "You can only cancel your own appointments" });
     }
+    if (appointment.payment) {
+      return res.json({ success: false, message: "Cannot cancel a paid appointment" });
+    }
     // Mark the appointment as cancelled
     appointment.cancelled = true;
     await appointment.save();
@@ -294,6 +297,28 @@ const cancelAppointment = async (req, res) => {
     return res.json({ success: false, message: error.message });
   }
 }
+
+// Mark appointment as paid (for PayPal integration)
+const markPaymentCompleted = async (req, res) => {
+  try {
+    const { appointmentId } = req.body;
+    if (!appointmentId) {
+      return res.status(400).json({ success: false, message: "Appointment ID is required" });
+    }
+    const appointment = await appointmentModel.findById(appointmentId);
+    if (!appointment) {
+      return res.status(400).json({ success: false, message: "Appointment not found" });
+    }
+    if (appointment.payment) {
+      return res.status(400).json({ success: false, message: "Payment already completed" });
+    }
+    appointment.payment = true;
+    await appointment.save();
+    res.json({ success: true, message: "Payment marked as completed" });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+};
 
 // Simple payment simulation - just mark appointment as paid
 const simulatePayment = async (req, res) => {
@@ -331,4 +356,5 @@ export {
   resetPassword,
   cancelAppointment,
   simulatePayment,
+  markPaymentCompleted,
 };

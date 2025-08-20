@@ -11,6 +11,7 @@ import {
   resetPassword,
   cancelAppointment,
   simulatePayment,
+  markPaymentCompleted,
 } from "../controllers/userController.js"
 import authUser from "../middlewares/authUser.js"
 import upload from "../middlewares/multer.js"
@@ -28,5 +29,6 @@ userRouter.post("/forgot-password", forgotPassword);
 userRouter.post("/reset-password", resetPassword);
 userRouter.post("/cancel-appointment", authUser, cancelAppointment)
 userRouter.post("/simulate-payment", authUser, simulatePayment)
+userRouter.post("/mark-payment", authUser, markPaymentCompleted)
 
 export default userRouter

@@ -5,6 +5,7 @@ import axios from "axios"
 import { toast } from "react-toastify"
 import { assets } from "../assets/assets"
 import uploadArea from "../assets/upload_area.png"
+import { useRef, useCallback } from "react"
 
 const MyAppointments = () => {
   const { backendUrl, token } = useContext(AppContext)
@@ -88,11 +89,71 @@ const MyAppointments = () => {
     }
   }
 
+  const paypalRef = useRef(null)
+
+  const handlePayPalPayment = useCallback((appointment) => {
+    if (!window.paypal || !paypalRef.current) return
+    window.paypal.Buttons({
+      createOrder: (data, actions) => {
+        return actions.order.create({
+          purchase_units: [
+            {
+              amount: {
+                value: appointment.amount.toString(),
+              },
+              description: `Appointment with Dr. ${appointment.docData.name}`,
+            },
+          ],
+          application_context: {
+            shipping_preference: "NO_SHIPPING",
+          },
+        })
+      },
+      onApprove: async (data, actions) => {
+        await actions.order.capture()
+        // Mark payment as completed in backend
+        setProcessingPayment(true)
+        try {
+          const { data: resp } = await axios.post(
+            backendUrl + "/api/user/mark-payment",
+            { appointmentId: appointment._id },
+            { headers: { token } }
+          )
+          if (resp.success) {
+            toast.success("Payment completed successfully!")
+            getUserAppointments()
+            setPayment("")
+          } else {
+            toast.error(resp.message)
+          }
+        } catch (error) {
+          toast.error(error.message)
+        } finally {
+          setProcessingPayment(false)
+        }
+      },
+      onError: (err) => {
+        toast.error("PayPal payment failed. Please try again.")
+        setProcessingPayment(false)
+      },
+    }).render(paypalRef.current)
+  }, [backendUrl, token, getUserAppointments])
+
   useEffect(() => {
     if (token) {
       getUserAppointments()
     }
   }, [token])
+
+  useEffect(() => {
+    if (payment) {
+      const appointment = appointments.find(a => a._id === payment)
+      if (appointment && !appointment.payment && !appointment.cancelled && !appointment.isCompleted) {
+        handlePayPalPayment(appointment)
+      }
+    }
+    // eslint-disable-next-line
+  }, [payment])
 
   const getStatusColor = (appointment) => {
     if (appointment.cancelled) return "bg-red-100 text-red-600 border-red-200"
@@ -227,31 +288,19 @@ const MyAppointments = () => {
                 {/* Action Buttons */}
                 <div className="flex flex-col gap-3 justify-center">
                   {!item.cancelled && !item.payment && !item.isCompleted && (
-                    <button
-                      onClick={() => setPayment(item._id)}
-                      className="bg-healthcare-primary text-white px-8 py-4 rounded-lg hover:bg-healthcare-secondary transform hover:scale-105 transition-all duration-300 shadow-sm font-semibold text-lg"
-                    >
-                      💳 Pay Online
-                    </button>
+                    <>
+                      <button
+                        onClick={() => setPayment(item._id)}
+                        className="bg-healthcare-primary text-white px-8 py-4 rounded-lg hover:bg-healthcare-secondary transform hover:scale-105 transition-all duration-300 shadow-sm font-semibold text-lg"
+                      >
+                        💳 Pay Online
+                      </button>
+                      {payment === item._id && (
+                        <div ref={paypalRef} className="mt-2"></div>
+                      )}
+                    </>
                   )}
                   
-                  {!item.cancelled && !item.payment && !item.isCompleted && payment === item._id && (
-                    <button
-                      onClick={() => simulatePayment(item._id)}
-                      disabled={processingPayment}
-                      className="bg-green-600 text-white px-8 py-4 rounded-lg hover:bg-green-700 transform hover:scale-105 transition-all duration-300 shadow-sm font-semibold disabled:opacity-50 disabled:transform-none text-lg"
-                    >
-                      {processingPayment ? (
-                        <div className="flex items-center gap-2">
-                          <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                          Processing...
-                        </div>
-                      ) : (
-                        "💳 Pay Now"
-                      )}
-                    </button>
-                  )}
-
                   {item.payment && (
                     <button className="bg-blue-100 text-blue-600 px-8 py-4 rounded-lg font-semibold text-lg" disabled>
                       ✅ Paid
@@ -264,7 +313,7 @@ const MyAppointments = () => {
                     </button>
                   )}
 
-                  {!item.cancelled && !item.isCompleted && (
+                  {!item.cancelled && !item.isCompleted && !item.payment && (
                     <button
                       onClick={() => cancelAppointment(item._id)}
                       className="bg-red-500 text-white px-8 py-4 rounded-lg hover:bg-red-600 transform hover:scale-105 transition-all duration-300 shadow-sm font-semibold text-lg"
